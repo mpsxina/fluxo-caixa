@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -59,6 +60,9 @@ public class LancamentoService {
     public LancamentoModel criarLancamento(LancamentoModel lancamentoModel) {
         try {
             LancamentoEntity lancamentoEntity = modelMapper.map(lancamentoModel, LancamentoEntity.class);
+            if (lancamentoEntity.getValor() == null) {
+                lancamentoEntity.setValor(BigDecimal.ZERO);
+            }
             lancamentoEntity = lancamentoRepository.save(lancamentoEntity);
             return modelMapper.map(lancamentoEntity, LancamentoModel.class);
         } catch (Exception e) {
@@ -72,7 +76,7 @@ public class LancamentoService {
             lancamentoEntity.setId(id);
             lancamentoEntity.setTipoLancamento(lancamentoEntity.getTipoLancamento());
             lancamentoEntity.setProduto(lancamentoEntity.getProduto());
-            lancamentoEntity.setValor(lancamentoEntity.getValor());
+            lancamentoEntity.setValor((lancamentoEntity.getValor() == null) ? BigDecimal.ZERO : lancamentoEntity.getValor());
             lancamentoEntity.setCreatedAt(lancamento.getCreatedAt());
             lancamentoEntity = lancamentoRepository.save(lancamentoEntity);
             return modelMapper.map(lancamentoEntity, LancamentoModel.class);

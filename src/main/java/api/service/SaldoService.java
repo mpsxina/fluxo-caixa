@@ -35,15 +35,15 @@ public class SaldoService {
 
         BigDecimal saldoCreditos = calcularSaldo(lancamentos, "CREDITO");
         BigDecimal saldoDebitos = calcularSaldo(lancamentos, "DEBITO");
-
         saldoTotal = saldoCreditos.subtract(saldoDebitos);
 
-        return SaldoDiarioModel.builder()
-                .data(data)
-                .saldoCreditos(saldoCreditos)
-                .saldoDebitos(saldoDebitos)
-                .saldoTotal(saldoTotal)
-                .build();
+        SaldoDiarioModel saldoDiario = new SaldoDiarioModel();
+        saldoDiario.setData(data);
+        saldoDiario.setSaldoCreditos(saldoCreditos);
+        saldoDiario.setSaldoDebitos(saldoDebitos);
+        saldoDiario.setSaldoTotal(saldoTotal);
+
+        return saldoDiario;
     }
 
 }

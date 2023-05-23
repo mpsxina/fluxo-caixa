@@ -14,12 +14,13 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class SaldoDiarioModel {
 
+    private LocalDate data;
+
     private BigDecimal saldoCreditos;
 
     private BigDecimal saldoDebitos;
 
     private BigDecimal saldoTotal;
 
-    private LocalDate data;
 
 }
