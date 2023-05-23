@@ -24,7 +24,12 @@ public class SaldoController {
 
     @GetMapping("/{data}")
     public ResponseEntity<SaldoDiarioModel> calcularSaldoDiario(@PathVariable("data") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate data) {
-        return new ResponseEntity<>(saldoService.calcularSaldoDiario(data), HttpStatus.OK);
+        return new ResponseEntity<>(saldoService.calcularSaldo(data), HttpStatus.OK);
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<SaldoDiarioModel> calcularSaldoCompleto() {
+        return new ResponseEntity<>(saldoService.calcularSaldo(null), HttpStatus.OK);
     }
 
 }

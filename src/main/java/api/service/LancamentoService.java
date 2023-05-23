@@ -1,11 +1,14 @@
 package api.service;
 
 import api.entity.LancamentoEntity;
+import api.entity.ProdutoEntity;
 import api.enums.TipoLancamento;
 import api.exception.ModelException;
 import api.model.LancamentoModel;
 import api.model.errors.LancamentoErrors;
+import api.model.errors.ProdutoErrors;
 import api.repository.LancamentoRepository;
+import api.repository.ProdutoRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,9 +26,12 @@ public class LancamentoService {
     @Autowired
     private LancamentoRepository lancamentoRepository;
 
+    @Autowired
+    private ProdutoRepository produtoRepository;
+
     private ModelMapper modelMapper = new ModelMapper();
 
-    public LancamentoModel listarLacamentoPorId(Long id) {
+    public LancamentoModel listarLancamentoPorId(Long id) {
         LancamentoEntity lancamento = lancamentoRepository.findById(id).orElse(new LancamentoEntity());
         if (lancamento.getId() == null) {
             throw new ModelException(LancamentoErrors.NOT_FOUND);
@@ -59,27 +65,35 @@ public class LancamentoService {
 
     public LancamentoModel criarLancamento(LancamentoModel lancamentoModel) {
         try {
-            LancamentoEntity lancamentoEntity = modelMapper.map(lancamentoModel, LancamentoEntity.class);
-            if (lancamentoEntity.getValor() == null) {
-                lancamentoEntity.setValor(BigDecimal.ZERO);
+            ProdutoEntity produto = produtoRepository.findById(lancamentoModel.getIdProduto()).orElse(new ProdutoEntity());
+            lancamentoModel.setValor((lancamentoModel.getValor() == null) ? BigDecimal.ZERO : lancamentoModel.getValor());
+            if (produto.getId() != null) {
+                LancamentoEntity lancamentoEntity = modelMapper.map(lancamentoModel, LancamentoEntity.class);
+                lancamentoEntity.setProduto(produto);
+                lancamentoEntity = lancamentoRepository.save(lancamentoEntity);
+                return modelMapper.map(lancamentoEntity, LancamentoModel.class);
             }
-            lancamentoEntity = lancamentoRepository.save(lancamentoEntity);
-            return modelMapper.map(lancamentoEntity, LancamentoModel.class);
+            throw new ModelException(ProdutoErrors.ERROR_CREATING);
         } catch (Exception e) {
             throw new ModelException(LancamentoErrors.ERROR_CREATING);
         }
     }
 
-    public LancamentoModel alterarLancamento(Long id, LancamentoEntity lancamentoEntity) {
-        LancamentoEntity lancamento = lancamentoRepository.findById(id).orElse(new LancamentoEntity());
-        while (lancamentoRepository.existsById(id)) {
-            lancamentoEntity.setId(id);
-            lancamentoEntity.setTipoLancamento(lancamentoEntity.getTipoLancamento());
-            lancamentoEntity.setProduto(lancamentoEntity.getProduto());
-            lancamentoEntity.setValor((lancamentoEntity.getValor() == null) ? BigDecimal.ZERO : lancamentoEntity.getValor());
-            lancamentoEntity.setCreatedAt(lancamento.getCreatedAt());
-            lancamentoEntity = lancamentoRepository.save(lancamentoEntity);
-            return modelMapper.map(lancamentoEntity, LancamentoModel.class);
+    public LancamentoModel alterarLancamento(Long id, LancamentoModel lancamentoModel) {
+        if (lancamentoRepository.existsById(id)) {
+            LancamentoEntity lancamentoEntity = lancamentoRepository.findById(id).orElse(new LancamentoEntity());
+            ProdutoEntity produtoEntity = produtoRepository.findById(lancamentoModel.getIdProduto()).orElse(new ProdutoEntity());
+            if (produtoEntity.getId() != null) {
+                lancamentoEntity.setId(id);
+                lancamentoEntity.setTipoLancamento(lancamentoModel.getTipoLancamento());
+                lancamentoEntity.setProduto(produtoEntity);
+                lancamentoEntity.setValor((lancamentoModel.getValor() == null) ? BigDecimal.ZERO : lancamentoModel.getValor());
+                lancamentoEntity.setData(lancamentoModel.getData());
+                lancamentoEntity.setCreatedAt(lancamentoEntity.getCreatedAt());
+                lancamentoEntity = lancamentoRepository.save(lancamentoEntity);
+                return modelMapper.map(lancamentoEntity, LancamentoModel.class);
+            }
+            throw new ModelException(ProdutoErrors.ERROR_CREATING);
         }
         throw new ModelException(LancamentoErrors.NOT_FOUND);
     }

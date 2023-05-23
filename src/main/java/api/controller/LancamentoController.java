@@ -1,6 +1,5 @@
 package api.controller;
 
-import api.entity.LancamentoEntity;
 import api.enums.TipoLancamento;
 import api.model.LancamentoModel;
 import api.service.LancamentoService;
@@ -26,8 +25,8 @@ public class LancamentoController {
     private LancamentoService lancamentoService;
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<LancamentoModel> listarLacamentoPorId(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(lancamentoService.listarLacamentoPorId(id), HttpStatus.OK);
+    public ResponseEntity<LancamentoModel> listarLancamentoPorId(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(lancamentoService.listarLancamentoPorId(id), HttpStatus.OK);
     }
 
     @GetMapping(value = "/data/{data}")
@@ -51,8 +50,8 @@ public class LancamentoController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<LancamentoModel> alterarLancamento(@PathVariable("id") Long id, @Valid @RequestBody LancamentoEntity lancamentoEntity) {
-        return new ResponseEntity<>(lancamentoService.alterarLancamento(id, lancamentoEntity), HttpStatus.OK);
+    public ResponseEntity<LancamentoModel> alterarLancamento(@PathVariable("id") Long id, @Valid @RequestBody LancamentoModel lancamentoModel) {
+        return new ResponseEntity<>(lancamentoService.alterarLancamento(id, lancamentoModel), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")

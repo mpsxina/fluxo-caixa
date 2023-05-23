@@ -25,10 +25,16 @@ public class SaldoService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    public SaldoDiarioModel calcularSaldoDiario(LocalDate data) {
+    public SaldoDiarioModel calcularSaldo(LocalDate data) {
         BigDecimal saldoTotal;
+        List<LancamentoEntity> lancamentos;
 
-        List<LancamentoEntity> lancamentos = lancamentoRepository.findByData(data);
+        if (data != null) {
+            lancamentos = lancamentoRepository.findByData(data);
+        } else {
+            lancamentos = lancamentoRepository.findAll();
+        }
+
         if (lancamentos.isEmpty()) {
             throw new ModelException(LancamentoErrors.NOT_FOUND);
         }

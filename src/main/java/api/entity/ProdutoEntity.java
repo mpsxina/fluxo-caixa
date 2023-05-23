@@ -1,6 +1,5 @@
 package api.entity;
 
-import api.enums.TipoLancamento;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,31 +8,24 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 @Entity
-@Table(name = "lancamento")
+@Table(name = "produto")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LancamentoEntity {
+public class ProdutoEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private TipoLancamento tipoLancamento;
+    private String nome;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_produto", nullable = false)
-    private ProdutoEntity produto;
-
-    private BigDecimal valor;
-
-    private LocalDate data;
+    private String descricao;
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
