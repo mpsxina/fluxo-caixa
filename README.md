@@ -8,6 +8,7 @@ Desenvolvimento de uma simples API REST para controle de Fluxo de Caixa.
 - API REST
 - Validation
 - Enum
+- Model Mapper
 
 ## Requisitos
 
@@ -55,12 +56,13 @@ Caso não tenha instalado o Docker ou dê alguma falha na instalação, tente co
 ### Maven
 
 Para rodar o projeto com Maven, é necessário ter a versão 3.8.6 instalada.<br>
-Além disso, é preciso ter o Java 11 e o MySql 8 instalado.<br>
+Além disso, é preciso ter o Java 17 e o MySql 8 instalado.<br>
 
 Tendo tudo instalado e rodando localmente, basta executar o seguinte comando:
 
 ```
-$ cd pdv-spring
+$ git clone https://github.com/danilomeneghel/fluxo-caixa.git
+$ cd fluxo-caixa
 $ mvn clean spring-boot:run
 ```
 
