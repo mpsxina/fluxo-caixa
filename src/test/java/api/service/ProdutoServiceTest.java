@@ -1,5 +1,6 @@
 package api.service;
 
+import api.ApplicationTests;
 import api.entity.ProdutoEntity;
 import api.exception.ModelException;
 import api.model.ProdutoModel;
@@ -18,7 +19,7 @@ import java.util.Optional;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
 
-public class ProdutoServiceTest {
+public class ProdutoServiceTest extends ApplicationTests {
 
     @Mock
     private ProdutoRepository produtoRepository;

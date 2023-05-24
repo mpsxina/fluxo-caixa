@@ -3,6 +3,7 @@ package api.repository;
 import api.entity.ProdutoEntity;
 import api.model.ProdutoModel;
 import api.service.ProdutoService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -25,25 +26,20 @@ public class ProdutoRepositoryTest {
 
     @Test
     public void testFindAll() {
-        ProdutoEntity produtoEntity = new ProdutoEntity();
-        produtoEntity.setId(1L);
-        produtoEntity.setNome("Produto 1");
-        produtoEntity.setDescricao("Descrição do Produto 1");
+        List<ProdutoEntity> produtosEntity = new ArrayList<>();
+        produtosEntity.add(new ProdutoEntity(1L, "Produto1", "Descrição do Produto1"));
+        produtosEntity.add(new ProdutoEntity(2L, "Produto2", "Descrição do Produto2"));
 
-        List<ProdutoEntity> produtos = new ArrayList<>();
-        produtos.add(produtoEntity);
+        List<ProdutoModel> produtosModel = new ArrayList<>();
+        produtosModel.add(new ProdutoModel(1L, "Produto1", "Descrição do Produto1"));
+        produtosModel.add(new ProdutoModel(2L, "Produto2", "Descrição do Produto2"));
 
-        ProdutoEntity produtoEntity2 = new ProdutoEntity();
-        produtoEntity2.setId(2L);
-        produtoEntity2.setNome("Produto 2");
-        produtoEntity2.setDescricao("Descrição do Produto 2");
-
-        produtos.add(produtoEntity2);
-        when(produtoRepositoryMock.findAll()).thenReturn(produtos);
+        when(produtoRepositoryMock.findAll()).thenReturn(produtosEntity);
 
         List<ProdutoModel> listarProdutos = produtoService.listarProdutos();
 
         verify(produtoRepositoryMock, times(1)).findAll();
+        Assertions.assertEquals(produtosModel, listarProdutos);
     }
 
 }

@@ -45,4 +45,10 @@ public class LancamentoModel {
     @Temporal( TemporalType.TIMESTAMP )
     private Date updatedAt;
 
+    public LancamentoModel(TipoLancamento tipoLancamento, BigDecimal valor, LocalDate dataLancamento) {
+        this.tipoLancamento = tipoLancamento;
+        this.valor = valor;
+        this.dataLancamento = dataLancamento;
+    }
+
 }

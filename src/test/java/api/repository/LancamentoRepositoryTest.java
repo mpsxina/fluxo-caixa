@@ -4,6 +4,7 @@ import api.entity.LancamentoEntity;
 import api.enums.TipoLancamento;
 import api.model.LancamentoModel;
 import api.service.LancamentoService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -28,80 +29,68 @@ public class LancamentoRepositoryTest {
 
     @Test
     public void testFindAll() {
-        LancamentoEntity lancamentoEntity = new LancamentoEntity();
-        lancamentoEntity.setId(1L);
-        lancamentoEntity.setDataLancamento(LocalDate.now());
-        lancamentoEntity.setTipoLancamento(TipoLancamento.CREDITO);
-        lancamentoEntity.setValor(BigDecimal.ONE);
+        LocalDate data = LocalDate.now();
 
-        List<LancamentoEntity> lancamentos = new ArrayList<>();
-        lancamentos.add(lancamentoEntity);
+        List<LancamentoEntity> lancamentosEntity = new ArrayList<>();
+        lancamentosEntity.add(new LancamentoEntity(TipoLancamento.CREDITO, new BigDecimal("30.00"), data));
+        lancamentosEntity.add(new LancamentoEntity(TipoLancamento.DEBITO, new BigDecimal("10.00"), data));
+        lancamentosEntity.add(new LancamentoEntity(TipoLancamento.CREDITO, new BigDecimal("50.00"), data));
 
-        LancamentoEntity lancamentoEntity2 = new LancamentoEntity();
-        lancamentoEntity2.setId(2L);
-        lancamentoEntity2.setDataLancamento(LocalDate.now());
-        lancamentoEntity2.setTipoLancamento(TipoLancamento.DEBITO);
-        lancamentoEntity2.setValor(BigDecimal.TEN);
+        List<LancamentoModel> lancamentosModel = new ArrayList<>();
+        lancamentosModel.add(new LancamentoModel(TipoLancamento.CREDITO, new BigDecimal("30.00"), data));
+        lancamentosModel.add(new LancamentoModel(TipoLancamento.DEBITO, new BigDecimal("10.00"), data));
+        lancamentosModel.add(new LancamentoModel(TipoLancamento.CREDITO, new BigDecimal("50.00"), data));
 
-        lancamentos.add(lancamentoEntity2);
-        when(lancamentoRepositoryMock.findAll()).thenReturn(lancamentos);
+        when(lancamentoRepositoryMock.findAll()).thenReturn(lancamentosEntity);
 
         List<LancamentoModel> listarLancamentos = lancamentoService.listarLancamentos();
 
         verify(lancamentoRepositoryMock, times(1)).findAll();
+        Assertions.assertEquals(lancamentosModel, listarLancamentos);
     }
 
     @Test
     public void testFindByDataLancamento() {
         LocalDate data = LocalDate.now();
-        LancamentoEntity lancamentoEntity = new LancamentoEntity();
-        lancamentoEntity.setId(1L);
-        lancamentoEntity.setDataLancamento(LocalDate.now());
-        lancamentoEntity.setTipoLancamento(TipoLancamento.CREDITO);
-        lancamentoEntity.setValor(BigDecimal.ONE);
 
-        List<LancamentoEntity> lancamentos = new ArrayList<>();
-        lancamentos.add(lancamentoEntity);
+        List<LancamentoEntity> lancamentosEntity = new ArrayList<>();
+        lancamentosEntity.add(new LancamentoEntity(TipoLancamento.CREDITO, new BigDecimal("30.00"), data));
+        lancamentosEntity.add(new LancamentoEntity(TipoLancamento.DEBITO, new BigDecimal("10.00"), data));
+        lancamentosEntity.add(new LancamentoEntity(TipoLancamento.CREDITO, new BigDecimal("50.00"), data));
 
-        LancamentoEntity lancamentoEntity2 = new LancamentoEntity();
-        lancamentoEntity2.setId(2L);
-        lancamentoEntity2.setDataLancamento(LocalDate.now());
-        lancamentoEntity2.setTipoLancamento(TipoLancamento.DEBITO);
-        lancamentoEntity2.setValor(BigDecimal.TEN);
+        List<LancamentoModel> lancamentosModel = new ArrayList<>();
+        lancamentosModel.add(new LancamentoModel(TipoLancamento.CREDITO, new BigDecimal("30.00"), data));
+        lancamentosModel.add(new LancamentoModel(TipoLancamento.DEBITO, new BigDecimal("10.00"), data));
+        lancamentosModel.add(new LancamentoModel(TipoLancamento.CREDITO, new BigDecimal("50.00"), data));
 
-        lancamentos.add(lancamentoEntity2);
-
-        when(lancamentoRepositoryMock.findByDataLancamento(data)).thenReturn(lancamentos);
+        when(lancamentoRepositoryMock.findByDataLancamento(data)).thenReturn(lancamentosEntity);
 
         List<LancamentoModel> listarLancamentos = lancamentoService.listarLancamentoPorDataLancamento(data);
 
         verify(lancamentoRepositoryMock, times(1)).findByDataLancamento(data);
+        Assertions.assertEquals(lancamentosModel, listarLancamentos);
     }
 
     @Test
     public void testFindByTipoLancamento() {
         TipoLancamento tipoLancamento = TipoLancamento.CREDITO;
+        LocalDate data = LocalDate.now();
 
-        LancamentoEntity lancamentoEntity = new LancamentoEntity();
-        lancamentoEntity.setId(1L);
-        lancamentoEntity.setDataLancamento(LocalDate.now());
-        lancamentoEntity.setTipoLancamento(TipoLancamento.CREDITO);
-        lancamentoEntity.setValor(BigDecimal.ONE);
+        List<LancamentoEntity> lancamentosEntity = new ArrayList<>();
+        lancamentosEntity.add(new LancamentoEntity(TipoLancamento.CREDITO, new BigDecimal("30.00"), data));
+        lancamentosEntity.add(new LancamentoEntity(TipoLancamento.DEBITO, new BigDecimal("10.00"), data));
+        lancamentosEntity.add(new LancamentoEntity(TipoLancamento.CREDITO, new BigDecimal("50.00"), data));
 
-        List<LancamentoEntity> lancamentos = new ArrayList<>();
-        lancamentos.add(lancamentoEntity);
+        List<LancamentoModel> lancamentosModel = new ArrayList<>();
+        lancamentosModel.add(new LancamentoModel(TipoLancamento.CREDITO, new BigDecimal("30.00"), data));
+        lancamentosModel.add(new LancamentoModel(TipoLancamento.DEBITO, new BigDecimal("10.00"), data));
+        lancamentosModel.add(new LancamentoModel(TipoLancamento.CREDITO, new BigDecimal("50.00"), data));
 
-        LancamentoEntity lancamentoEntity2 = new LancamentoEntity();
-        lancamentoEntity2.setId(2L);
-        lancamentoEntity2.setDataLancamento(LocalDate.now());
-        lancamentoEntity2.setTipoLancamento(TipoLancamento.DEBITO);
-        lancamentoEntity2.setValor(BigDecimal.TEN);
+        when(lancamentoRepositoryMock.findByTipoLancamento(tipoLancamento)).thenReturn(lancamentosEntity);
 
-        lancamentos.add(lancamentoEntity2);
-        when(lancamentoRepositoryMock.findByTipoLancamento(tipoLancamento)).thenReturn(lancamentos);
-
-        List<LancamentoModel> listarLancamento = lancamentoService.listarLancamentoPorTipo(tipoLancamento);
+        List<LancamentoModel> listarLancamentos = lancamentoService.listarLancamentoPorTipo(tipoLancamento);
 
         verify(lancamentoRepositoryMock, times(1)).findByTipoLancamento(tipoLancamento);
+        Assertions.assertEquals(lancamentosModel, listarLancamentos);
     }
 }

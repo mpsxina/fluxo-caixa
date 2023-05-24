@@ -43,4 +43,10 @@ public class LancamentoEntity {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
 
+    public LancamentoEntity(TipoLancamento tipoLancamento, BigDecimal valor, LocalDate dataLancamento) {
+        this.tipoLancamento = tipoLancamento;
+        this.valor = valor;
+        this.dataLancamento = dataLancamento;
+    }
+
 }

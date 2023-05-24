@@ -34,4 +34,9 @@ public class ProdutoEntity {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
 
+    public ProdutoEntity(Long id, String nome, String descricao) {
+        this.id = id;
+        this.nome = nome;
+        this.descricao = descricao;
+    }
 }

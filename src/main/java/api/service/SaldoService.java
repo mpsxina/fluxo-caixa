@@ -25,7 +25,7 @@ public class SaldoService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    public SaldoDiarioModel calcularSaldo(LocalDate data) {
+    public SaldoDiarioModel mostrarSaldo(LocalDate data) {
         BigDecimal saldoTotal;
         List<LancamentoEntity> lancamentos;
 

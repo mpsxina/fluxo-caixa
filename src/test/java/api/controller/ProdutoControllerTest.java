@@ -24,11 +24,6 @@ public class ProdutoControllerTest extends ApplicationTests {
         this.mockMvc = MockMvcBuilders.standaloneSetup(produtoController).build();
     }
 
-    @AfterAll
-    public void tearDown() throws Exception {
-        //this.testDELETEProduto();
-    }
-
     @Test
     @DisplayName("Cria o Produto")
     public void testPOSTProduto() throws Exception {
@@ -90,19 +85,5 @@ public class ProdutoControllerTest extends ApplicationTests {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
-
-    /*@DisplayName("Exclui o Produto por ID")
-    public void testDELETEProduto() throws Exception {
-        String produto = "{\"nome\": \"Produto 1\", \"descricao\": \"Descrição do Produto 1\"}";
-
-        this.mockMvc.perform(MockMvcRequestBuilders.post(URL_API)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(produto)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isCreated());
-
-        this.mockMvc.perform(MockMvcRequestBuilders.delete(URL_API+"/{id}", "1"))
-                .andExpect(MockMvcResultMatchers.status().isOk());
-    }*/
 
 }
