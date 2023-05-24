@@ -110,11 +110,11 @@ public class LancamentoControllerTest extends ApplicationTests {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isCreated());
 
-        String updated = "{\"idProduto\": \"1\", \"tipoLancamento\": \"CREDITO\", \"valor\": \"15\", \"dataLancamento\": \"2023-05-23\"}";
+        String lancamento2 = "{\"idProduto\": \"1\", \"tipoLancamento\": \"CREDITO\", \"valor\": \"15\", \"dataLancamento\": \"2023-05-23\"}";
 
         this.mockMvc.perform(MockMvcRequestBuilders.put(URL_API+"/{id}", "1")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(updated)
+                        .content(lancamento2)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }

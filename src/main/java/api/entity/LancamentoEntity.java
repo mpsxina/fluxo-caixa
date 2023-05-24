@@ -28,7 +28,7 @@ public class LancamentoEntity {
     private TipoLancamento tipoLancamento;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_produto", nullable = false)
+    @JoinColumn(name = "id_produto")
     private ProdutoEntity produto;
 
     private BigDecimal valor;

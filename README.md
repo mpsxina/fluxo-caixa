@@ -24,6 +24,8 @@ Desenvolvimento de uma simples API REST para controle de Fluxo de Caixa.
 - Maven
 - Spring
 - Swagger
+- JUnit
+- Mockito
 - Docker
 
 ## Instalação
@@ -53,6 +55,16 @@ $ docker-compose down
 OBS: É necessário ter o Docker e docker-compose instalado.
 Caso não tenha instalado o Docker ou dê alguma falha na instalação, tente com os comandos abaixo.
 
+### MySql
+Crie um banco de dados com o nome "fluxocaixa" no seu Mysql.<br>
+Abra o arquivo .env e efetue a configuração correta para conexão do seu banco de dados.<br>
+
+```
+$ mysql -u<seu usuário> -p<sua senha>
+
+mysql> create database `fluxocaixa`;
+```
+
 ### Maven
 
 Para rodar o projeto com Maven, é necessário ter a versão 3.8.6 instalada.<br>
@@ -66,21 +78,24 @@ $ cd fluxo-caixa
 $ mvn clean spring-boot:run -Dspring-boot.run.profiles=dev
 ```
 
-### MySql
-Crie um banco de dados com o nome "fluxocaixa" no seu Mysql.<br>
-Abra o arquivo .env e efetue a configuração correta para conexão do seu banco de dados.<br>
-
-```
-$ mysql -u<seu usuário> -p<sua senha>
-
-mysql> create database `fluxocaixa`;
-```
-
 ## Swagger 
 
 Documentação da API REST: <br>
 
 http://localhost:8000/swagger-ui.html
+
+## Testes
+
+Para realizar os testes unitários, execute o seguinte comando no terminal:
+
+```
+$ cd fluxo-caixa
+$ mvn test
+```
+
+## Diagrama ER
+
+![Screenshots](diagrama_er.png) <br><br>
 
 ## Licença
 
