@@ -30,8 +30,8 @@ public class LancamentoController {
     }
 
     @GetMapping(value = "/data/{data}")
-    public ResponseEntity<List<LancamentoModel>> listarLancamentoPorData(@PathVariable("data") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate data) {
-        return new ResponseEntity<>(lancamentoService.listarLancamentoPorData(data), HttpStatus.OK);
+    public ResponseEntity<List<LancamentoModel>> listarLancamentoPorDataLancamento(@PathVariable("data") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate data) {
+        return new ResponseEntity<>(lancamentoService.listarLancamentoPorDataLancamento(data), HttpStatus.OK);
     }
 
     @GetMapping(value = "/tipo/{tipoLancamento}")

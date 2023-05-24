@@ -54,7 +54,7 @@ public class ProdutoService {
             produtoEntity.setId(id);
             produtoEntity.setNome(produtoModel.getNome());
             produtoEntity.setDescricao(produtoModel.getDescricao());
-            produtoEntity.setCreatedAt(produtoEntity.getCreatedAt());
+            //produtoEntity.setCreatedAt(produtoEntity.getCreatedAt());
             produtoEntity = produtoRepository.save(produtoEntity);
             return modelMapper.map(produtoEntity, ProdutoModel.class);
         }

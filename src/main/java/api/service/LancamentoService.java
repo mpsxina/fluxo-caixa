@@ -39,8 +39,8 @@ public class LancamentoService {
         return modelMapper.map(lancamento, LancamentoModel.class);
     }
 
-    public List<LancamentoModel> listarLancamentoPorData(LocalDate data) {
-        List<LancamentoEntity> lancamentos = lancamentoRepository.findByData(data);
+    public List<LancamentoModel> listarLancamentoPorDataLancamento(LocalDate data) {
+        List<LancamentoEntity> lancamentos = lancamentoRepository.findByDataLancamento(data);
         if (lancamentos.isEmpty()) {
             throw new ModelException(LancamentoErrors.NOT_FOUND);
         }
@@ -88,7 +88,7 @@ public class LancamentoService {
                 lancamentoEntity.setTipoLancamento(lancamentoModel.getTipoLancamento());
                 lancamentoEntity.setProduto(produtoEntity);
                 lancamentoEntity.setValor((lancamentoModel.getValor() == null) ? BigDecimal.ZERO : lancamentoModel.getValor());
-                lancamentoEntity.setData(lancamentoModel.getData());
+                lancamentoEntity.setDataLancamento(lancamentoModel.getDataLancamento());
                 lancamentoEntity.setCreatedAt(lancamentoEntity.getCreatedAt());
                 lancamentoEntity = lancamentoRepository.save(lancamentoEntity);
                 return modelMapper.map(lancamentoEntity, LancamentoModel.class);

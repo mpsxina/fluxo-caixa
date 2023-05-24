@@ -33,7 +33,7 @@ public class LancamentoEntity {
 
     private BigDecimal valor;
 
-    private LocalDate data;
+    private LocalDate dataLancamento;
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)

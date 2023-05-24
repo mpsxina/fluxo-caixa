@@ -30,7 +30,7 @@ public class SaldoService {
         List<LancamentoEntity> lancamentos;
 
         if (data != null) {
-            lancamentos = lancamentoRepository.findByData(data);
+            lancamentos = lancamentoRepository.findByDataLancamento(data);
         } else {
             lancamentos = lancamentoRepository.findAll();
         }

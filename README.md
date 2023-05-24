@@ -63,7 +63,7 @@ Tendo tudo instalado e rodando localmente, basta executar o seguinte comando:
 ```
 $ git clone https://github.com/danilomeneghel/fluxo-caixa.git
 $ cd fluxo-caixa
-$ mvn clean spring-boot:run
+$ mvn clean spring-boot:run -Dspring-boot.run.profiles=dev
 ```
 
 ### MySql

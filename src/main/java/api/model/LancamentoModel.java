@@ -33,9 +33,9 @@ public class LancamentoModel {
     @NotBlank(message = "Campo Valor é obrigatório")
     private BigDecimal valor;
 
-    @NotBlank(message = "Campo Data é obrigatório")
+    @NotBlank(message = "Campo Data Lançamento é obrigatório")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    private LocalDate data;
+    private LocalDate dataLancamento;
 
     @CreationTimestamp
     @Temporal( TemporalType.TIMESTAMP )

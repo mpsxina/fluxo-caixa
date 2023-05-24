@@ -13,7 +13,7 @@ public interface LancamentoRepository extends CrudRepository<LancamentoEntity, L
 
     List<LancamentoEntity> findAll();
 
-    List<LancamentoEntity> findByData(LocalDate data);
+    List<LancamentoEntity> findByDataLancamento(LocalDate data);
 
     List<LancamentoEntity> findByTipoLancamento(TipoLancamento tipoLancamento);
 
