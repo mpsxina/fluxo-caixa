@@ -2,7 +2,7 @@ package api.service;
 
 import api.entity.LancamentoEntity;
 import api.exception.ModelException;
-import api.model.SaldoDiarioModel;
+import api.model.SaldoModel;
 import api.model.errors.LancamentoErrors;
 import api.repository.LancamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class SaldoService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    public SaldoDiarioModel mostrarSaldo(LocalDate data) {
+    public SaldoModel mostrarSaldo(LocalDate data) {
         BigDecimal saldoTotal;
         List<LancamentoEntity> lancamentos;
 
@@ -43,13 +43,13 @@ public class SaldoService {
         BigDecimal saldoDebitos = calcularSaldo(lancamentos, "DEBITO");
         saldoTotal = saldoCreditos.subtract(saldoDebitos);
 
-        SaldoDiarioModel saldoDiario = new SaldoDiarioModel();
-        saldoDiario.setData(data);
-        saldoDiario.setSaldoCreditos(saldoCreditos);
-        saldoDiario.setSaldoDebitos(saldoDebitos);
-        saldoDiario.setSaldoTotal(saldoTotal);
+        SaldoModel saldo = new SaldoModel();
+        saldo.setData(data);
+        saldo.setSaldoCreditos(saldoCreditos);
+        saldo.setSaldoDebitos(saldoDebitos);
+        saldo.setSaldoTotal(saldoTotal);
 
-        return saldoDiario;
+        return saldo;
     }
 
 }

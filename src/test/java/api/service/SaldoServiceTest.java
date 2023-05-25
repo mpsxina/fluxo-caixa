@@ -4,7 +4,7 @@ import api.ApplicationTests;
 import api.entity.LancamentoEntity;
 import api.enums.TipoLancamento;
 import api.exception.ModelException;
-import api.model.SaldoDiarioModel;
+import api.model.SaldoModel;
 import api.repository.LancamentoRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -57,7 +57,7 @@ public class SaldoServiceTest extends ApplicationTests {
 
         when(lancamentoRepository.findByDataLancamento(data)).thenReturn(lancamentos);
 
-        SaldoDiarioModel saldoDiario = saldoService.mostrarSaldo(data);
+        SaldoModel saldoDiario = saldoService.mostrarSaldo(data);
 
         Assertions.assertEquals(data, saldoDiario.getData());
         Assertions.assertEquals(new BigDecimal("150.00"), saldoDiario.getSaldoCreditos());
@@ -75,7 +75,7 @@ public class SaldoServiceTest extends ApplicationTests {
 
         when(lancamentoRepository.findAll()).thenReturn(lancamentos);
 
-        SaldoDiarioModel saldoDiario = saldoService.mostrarSaldo(null);
+        SaldoModel saldoDiario = saldoService.mostrarSaldo(null);
 
         Assertions.assertEquals(null, saldoDiario.getData());
         Assertions.assertEquals(new BigDecimal("250.00"), saldoDiario.getSaldoCreditos());

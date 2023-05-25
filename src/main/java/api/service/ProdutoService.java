@@ -22,50 +22,67 @@ public class ProdutoService {
 
     private ModelMapper modelMapper = new ModelMapper();
 
-    public ProdutoModel listarLacamentoPorId(Long id) {
-        ProdutoEntity produto = produtoRepository.findById(id).orElse(new ProdutoEntity());
-        if (produto.getId() == null) {
+    public ProdutoModel listarProdutoPorId(Long id) {
+        if (id != null) {
+            ProdutoEntity produto = produtoRepository.findById(id).orElse(new ProdutoEntity());
+            if (produto.getId() != null) {
+                return modelMapper.map(produto, ProdutoModel.class);
+            }
             throw new ModelException(ProdutoErrors.NOT_FOUND);
         }
-        return modelMapper.map(produto, ProdutoModel.class);
+        throw new ModelException(ProdutoErrors.EMPTY);
     }
 
     public List<ProdutoModel> listarProdutos() {
         List<ProdutoEntity> produtos = produtoRepository.findAll();
-        if (produtos.isEmpty()) {
-            throw new ModelException(ProdutoErrors.NOT_FOUND);
+        if (!produtos.isEmpty()) {
+            return produtos.stream()
+                    .map(entity -> modelMapper.map(entity, ProdutoModel.class))
+                    .collect(Collectors.toList());
         }
-        return produtos.stream().map(entity -> modelMapper.map(entity, ProdutoModel.class)).collect(Collectors.toList());
+        throw new ModelException(ProdutoErrors.NOT_FOUND);
     }
 
     public ProdutoModel criarProduto(ProdutoModel produtoModel) {
-        try {
-            ProdutoEntity produtoEntity = modelMapper.map(produtoModel, ProdutoEntity.class);
-            produtoEntity = produtoRepository.save(produtoEntity);
-            return modelMapper.map(produtoEntity, ProdutoModel.class);
-        } catch (Exception e) {
-            throw new ModelException(ProdutoErrors.ERROR_CREATING);
+        if (produtoModel != null) {
+            try {
+                ProdutoEntity produtoEntity = modelMapper.map(produtoModel, ProdutoEntity.class);
+                produtoEntity = produtoRepository.save(produtoEntity);
+                return modelMapper.map(produtoEntity, ProdutoModel.class);
+            } catch (Exception e) {
+                throw new ModelException(ProdutoErrors.ERROR_CREATING);
+            }
         }
+        throw new ModelException(ProdutoErrors.EMPTY);
     }
 
     public ProdutoModel alterarProduto(Long id, ProdutoModel produtoModel) {
-        if (produtoRepository.existsById(id)) {
-            ProdutoEntity produtoEntity = produtoRepository.findById(id).orElse(new ProdutoEntity());
-            produtoEntity.setId(id);
-            produtoEntity.setNome(produtoModel.getNome());
-            produtoEntity.setDescricao(produtoModel.getDescricao());
-            //produtoEntity.setCreatedAt(produtoEntity.getCreatedAt());
-            produtoEntity = produtoRepository.save(produtoEntity);
-            return modelMapper.map(produtoEntity, ProdutoModel.class);
+        if (id != null && produtoModel != null) {
+            if (produtoRepository.existsById(id)) {
+                try {
+                    ProdutoEntity produtoEntity = produtoRepository.findById(id).orElse(new ProdutoEntity());
+                    produtoEntity.setId(id);
+                    produtoEntity.setNome(produtoModel.getNome());
+                    produtoEntity.setDescricao(produtoModel.getDescricao());
+                    produtoEntity = produtoRepository.save(produtoEntity);
+                    return modelMapper.map(produtoEntity, ProdutoModel.class);
+                } catch (Exception e) {
+                    throw new ModelException(ProdutoErrors.ERROR_EDITING);
+                }
+            }
+            throw new ModelException(ProdutoErrors.NOT_FOUND);
         }
-        throw new ModelException(ProdutoErrors.NOT_FOUND);
+        throw new ModelException(ProdutoErrors.EMPTY);
     }
 
     public String excluirProduto(Long id) {
-        if (produtoRepository.existsById(id)) {
-            produtoRepository.deleteById(id);
-            return "Produto excluído com sucesso.";
+        if (id != null) {
+            if (produtoRepository.existsById(id)) {
+                produtoRepository.deleteById(id);
+                return "Produto excluído com sucesso.";
+            }
+            throw new ModelException(ProdutoErrors.NOT_FOUND);
         }
-        throw new ModelException(ProdutoErrors.NOT_FOUND);
+        throw new ModelException(ProdutoErrors.EMPTY);
     }
 }

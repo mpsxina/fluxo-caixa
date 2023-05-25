@@ -42,7 +42,7 @@ public class ProdutoServiceTest extends ApplicationTests {
 
         when(produtoRepository.findById(id)).thenReturn(Optional.of(produtoEntity));
 
-        ProdutoModel produtoModel = produtoService.listarLacamentoPorId(id);
+        ProdutoModel produtoModel = produtoService.listarProdutoPorId(id);
 
         Assertions.assertEquals(produtoEntity.getId(), produtoModel.getId());
         Assertions.assertEquals(produtoEntity.getNome(), produtoModel.getNome());
@@ -56,7 +56,7 @@ public class ProdutoServiceTest extends ApplicationTests {
         when(produtoRepository.findById(id)).thenReturn(Optional.empty());
 
         Assertions.assertThrows(ModelException.class, () -> {
-            produtoService.listarLacamentoPorId(id);
+            produtoService.listarProdutoPorId(id);
         });
     }
 

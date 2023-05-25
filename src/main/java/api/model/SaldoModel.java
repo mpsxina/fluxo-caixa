@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SaldoDiarioModel {
+public class SaldoModel {
 
     private LocalDate data;
 

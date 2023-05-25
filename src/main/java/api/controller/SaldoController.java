@@ -1,6 +1,6 @@
 package api.controller;
 
-import api.model.SaldoDiarioModel;
+import api.model.SaldoModel;
 import api.service.SaldoService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +23,12 @@ public class SaldoController {
     private SaldoService saldoService;
 
     @GetMapping("/{data}")
-    public ResponseEntity<SaldoDiarioModel> mostrarSaldoDiario(@PathVariable("data") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate data) {
+    public ResponseEntity<SaldoModel> mostrarSaldoDiario(@PathVariable("data") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate data) {
         return new ResponseEntity<>(saldoService.mostrarSaldo(data), HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity<SaldoDiarioModel> mostrarSaldoCompleto() {
+    public ResponseEntity<SaldoModel> mostrarSaldoCompleto() {
         return new ResponseEntity<>(saldoService.mostrarSaldo(null), HttpStatus.OK);
     }
 

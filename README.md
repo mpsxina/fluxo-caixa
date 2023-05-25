@@ -7,6 +7,7 @@ Desenvolvimento de uma simples API REST para controle de Fluxo de Caixa.
 - CRUD
 - API REST
 - Validation
+- Exception
 - Enum
 - Model Mapper
 

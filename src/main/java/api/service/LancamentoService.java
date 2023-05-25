@@ -32,77 +32,104 @@ public class LancamentoService {
     private ModelMapper modelMapper = new ModelMapper();
 
     public LancamentoModel listarLancamentoPorId(Long id) {
-        LancamentoEntity lancamento = lancamentoRepository.findById(id).orElse(new LancamentoEntity());
-        if (lancamento.getId() == null) {
+        if (id != null) {
+            LancamentoEntity lancamento = lancamentoRepository.findById(id).orElse(new LancamentoEntity());
+            if (lancamento.getId() != null) {
+                return modelMapper.map(lancamento, LancamentoModel.class);
+            }
             throw new ModelException(LancamentoErrors.NOT_FOUND);
         }
-        return modelMapper.map(lancamento, LancamentoModel.class);
+        throw new ModelException(LancamentoErrors.EMPTY);
     }
 
     public List<LancamentoModel> listarLancamentoPorDataLancamento(LocalDate data) {
-        List<LancamentoEntity> lancamentos = lancamentoRepository.findByDataLancamento(data);
-        if (lancamentos.isEmpty()) {
+        if (data != null) {
+            List<LancamentoEntity> lancamentos = lancamentoRepository.findByDataLancamento(data);
+            if (!lancamentos.isEmpty()) {
+                return lancamentos.stream()
+                        .map(entity -> modelMapper.map(entity, LancamentoModel.class))
+                        .collect(Collectors.toList());
+            }
             throw new ModelException(LancamentoErrors.NOT_FOUND);
         }
-        return lancamentos.stream().map(entity -> modelMapper.map(entity, LancamentoModel.class)).collect(Collectors.toList());
+        throw new ModelException(LancamentoErrors.EMPTY);
     }
 
     public List<LancamentoModel> listarLancamentoPorTipo(TipoLancamento tipoLancamento) {
-        List<LancamentoEntity> lancamentos = lancamentoRepository.findByTipoLancamento(tipoLancamento);
-        if (lancamentos.isEmpty()) {
+        if (!tipoLancamento.getValue().isEmpty()) {
+            List<LancamentoEntity> lancamentos = lancamentoRepository.findByTipoLancamento(tipoLancamento);
+            if (!lancamentos.isEmpty()) {
+                return lancamentos.stream()
+                        .map(entity -> modelMapper.map(entity, LancamentoModel.class))
+                        .collect(Collectors.toList());
+            }
             throw new ModelException(LancamentoErrors.NOT_FOUND);
         }
-        return lancamentos.stream().map(entity -> modelMapper.map(entity, LancamentoModel.class)).collect(Collectors.toList());
+        throw new ModelException(LancamentoErrors.EMPTY);
     }
 
     public List<LancamentoModel> listarLancamentos() {
         List<LancamentoEntity> lancamentos = lancamentoRepository.findAll();
-        if (lancamentos.isEmpty()) {
-            throw new ModelException(LancamentoErrors.NOT_FOUND);
+        if (!lancamentos.isEmpty()) {
+            return lancamentos.stream()
+                    .map(entity -> modelMapper.map(entity, LancamentoModel.class))
+                    .collect(Collectors.toList());
         }
-        return lancamentos.stream().map(entity -> modelMapper.map(entity, LancamentoModel.class)).collect(Collectors.toList());
+        throw new ModelException(LancamentoErrors.NOT_FOUND);
     }
 
     public LancamentoModel criarLancamento(LancamentoModel lancamentoModel) {
-        try {
-            ProdutoEntity produto = produtoRepository.findById(lancamentoModel.getIdProduto()).orElse(new ProdutoEntity());
-            lancamentoModel.setValor((lancamentoModel.getValor() == null) ? BigDecimal.ZERO : lancamentoModel.getValor());
-            if (produto.getId() != null) {
-                LancamentoEntity lancamentoEntity = modelMapper.map(lancamentoModel, LancamentoEntity.class);
-                lancamentoEntity.setProduto(produto);
-                lancamentoEntity = lancamentoRepository.save(lancamentoEntity);
-                return modelMapper.map(lancamentoEntity, LancamentoModel.class);
+        if(lancamentoModel != null) {
+            try {
+                lancamentoModel.setValor((lancamentoModel.getValor() == null) ? BigDecimal.ZERO : lancamentoModel.getValor());
+                ProdutoEntity produto = produtoRepository.findById(lancamentoModel.getIdProduto()).orElse(new ProdutoEntity());
+                if (produto.getId() != null) {
+                    LancamentoEntity lancamentoEntity = modelMapper.map(lancamentoModel, LancamentoEntity.class);
+                    lancamentoEntity.setProduto(produto);
+                    lancamentoEntity = lancamentoRepository.save(lancamentoEntity);
+                    return modelMapper.map(lancamentoEntity, LancamentoModel.class);
+                }
+                throw new ModelException(ProdutoErrors.ERROR_CREATING);
+            } catch (Exception e) {
+                throw new ModelException(LancamentoErrors.ERROR_CREATING);
             }
-            throw new ModelException(ProdutoErrors.ERROR_CREATING);
-        } catch (Exception e) {
-            throw new ModelException(LancamentoErrors.ERROR_CREATING);
         }
+        throw new ModelException(LancamentoErrors.EMPTY);
     }
 
     public LancamentoModel alterarLancamento(Long id, LancamentoModel lancamentoModel) {
-        if (lancamentoRepository.existsById(id)) {
-            LancamentoEntity lancamentoEntity = lancamentoRepository.findById(id).orElse(new LancamentoEntity());
-            ProdutoEntity produtoEntity = produtoRepository.findById(lancamentoModel.getIdProduto()).orElse(new ProdutoEntity());
-            if (produtoEntity.getId() != null) {
-                lancamentoEntity.setId(id);
-                lancamentoEntity.setTipoLancamento(lancamentoModel.getTipoLancamento());
-                lancamentoEntity.setProduto(produtoEntity);
-                lancamentoEntity.setValor((lancamentoModel.getValor() == null) ? BigDecimal.ZERO : lancamentoModel.getValor());
-                lancamentoEntity.setDataLancamento(lancamentoModel.getDataLancamento());
-                lancamentoEntity.setCreatedAt(lancamentoEntity.getCreatedAt());
-                lancamentoEntity = lancamentoRepository.save(lancamentoEntity);
-                return modelMapper.map(lancamentoEntity, LancamentoModel.class);
+        if (lancamentoModel != null) {
+            if (lancamentoRepository.existsById(id)) {
+                try {
+                    LancamentoEntity lancamentoEntity = lancamentoRepository.findById(id).orElse(new LancamentoEntity());
+                    ProdutoEntity produtoEntity = produtoRepository.findById(lancamentoModel.getIdProduto()).orElse(new ProdutoEntity());
+                    if (produtoEntity.getId() != null) {
+                        lancamentoEntity.setId(id);
+                        lancamentoEntity.setTipoLancamento(lancamentoModel.getTipoLancamento());
+                        lancamentoEntity.setProduto(produtoEntity);
+                        lancamentoEntity.setValor((lancamentoModel.getValor() == null) ? BigDecimal.ZERO : lancamentoModel.getValor());
+                        lancamentoEntity.setDataLancamento(lancamentoModel.getDataLancamento());
+                        lancamentoEntity = lancamentoRepository.save(lancamentoEntity);
+                        return modelMapper.map(lancamentoEntity, LancamentoModel.class);
+                    }
+                    throw new ModelException(LancamentoErrors.ERROR_EDITING);
+                } catch (Exception e) {
+                    throw new ModelException(LancamentoErrors.ERROR_EDITING);
+                }
             }
-            throw new ModelException(ProdutoErrors.ERROR_CREATING);
+            throw new ModelException(LancamentoErrors.NOT_FOUND);
         }
-        throw new ModelException(LancamentoErrors.NOT_FOUND);
+        throw new ModelException(LancamentoErrors.EMPTY);
     }
 
     public String excluirLancamento(Long id) {
-        if (lancamentoRepository.existsById(id)) {
-            lancamentoRepository.deleteById(id);
-            return "Lançamento excluído com sucesso.";
+        if (id != null) {
+            if (lancamentoRepository.existsById(id)) {
+                lancamentoRepository.deleteById(id);
+                return "Lançamento excluído com sucesso.";
+            }
+            throw new ModelException(LancamentoErrors.NOT_FOUND);
         }
-        throw new ModelException(LancamentoErrors.NOT_FOUND);
+        throw new ModelException(LancamentoErrors.EMPTY);
     }
 }
