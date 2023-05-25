@@ -2,6 +2,14 @@
 
 Desenvolvimento de uma simples API REST para controle de Fluxo de Caixa.
 
+## Recursos
+
+- Cadastro, alteração e exclusão de Produto
+- Listagem de Produtos
+- Cadastro, alteração e exclusão de Lançamento
+- Listagem de Lançamentos
+- Visualização de Saldo
+
 ## Características
 
 - CRUD
@@ -9,7 +17,6 @@ Desenvolvimento de uma simples API REST para controle de Fluxo de Caixa.
 - Validation
 - Exception
 - Enum
-- Model Mapper
 
 ## Requisitos
 
@@ -24,6 +31,9 @@ Desenvolvimento de uma simples API REST para controle de Fluxo de Caixa.
 - JPA
 - Maven
 - Spring
+- Lombok
+- Model Mapper
+- H2
 - Swagger
 - JUnit
 - Mockito
