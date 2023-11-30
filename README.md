@@ -84,7 +84,7 @@ Além disso, é preciso ter o Java 17 e o MySql 8 instalado.<br>
 Tendo tudo instalado e rodando localmente, basta executar o seguinte comando:
 
 ```
-$ git clone https://github.com/danilomeneghel/fluxo-caixa.git
+$ git clone https://github.com/mpsxina/fluxo-caixa.git
 $ cd fluxo-caixa
 $ mvn clean spring-boot:run -Dspring-boot.run.profiles=dev
 ```
@@ -114,6 +114,6 @@ Projeto licenciado sob <a href="LICENSE">The MIT License (MIT)</a>.<br><br>
 
 
 Desenvolvido por<br>
-Danilo Meneghel<br>
-danilo.meneghel@gmail.com<br>
-http://danilomeneghel.github.io/<br>
+Marcos Pereira de Sousa<br>
+mpsxina@gmail.com<br>
+http://mpsxina.github.io/<br>
